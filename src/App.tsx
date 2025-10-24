@@ -4,7 +4,10 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from '@/components/Navbar'
 import ThemeSwitchButton from '@/components/ThemeSwitchButton'
+import MainButton from '@/components/MainButton'
 import VideoModal from '@/components/VideoModal'
+import { ourFocusData } from '@/data/our-focus'
+import { ourTeamData } from '@/data/our-team'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -14,6 +17,8 @@ function App() {
 
   const bannerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!bannerRef.current) return
@@ -50,6 +55,32 @@ function App() {
     })
   }, [])
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      ourTeamData.forEach((member, index) => {
+        const trigger = sectionRef.current?.querySelector(`#member-${index}`)
+
+        ScrollTrigger.create({
+          trigger,
+          start: 'top center',
+          end: 'bottom center',
+          onEnter: () =>
+            gsap.to(imageRef.current, {
+              backgroundColor: member.color,
+              duration: 0.8,
+            }),
+          onEnterBack: () =>
+            gsap.to(imageRef.current, {
+              backgroundColor: member.color,
+              duration: 0.8,
+            }),
+        })
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <>
       <div className="min-h-screen relative">
@@ -57,6 +88,7 @@ function App() {
         <ThemeSwitchButton />
 
         <div className="px-20 h-full">
+          {/* BANNER & VIDEO SECTION */}
           <div className="flex flex-col min-h-[250vh] relative">
             <section
               id="banner"
@@ -99,7 +131,8 @@ function App() {
             </section>
           </div>
 
-          <section id="about" className="my-20 h-160 flex">
+          {/* ABOUT SECTION */}
+          <section id="about" className="mt-50 h-160 flex">
             {/* LEFT CONTENT */}
             <div className="w-1/2 h-full flex flex-col justify-center">
               <p className="uppercase">About Us</p>
@@ -115,7 +148,7 @@ function App() {
             </div>
 
             {/* RIGHT CONTENT */}
-            <div className="w-1/2 h-full py-7 px-15">
+            <div className="w-1/2 h-full py-9 px-15">
               <div className="h-full w-full flex justify-center items-center bg-oxfordBlue">
                 <button
                   onClick={() => {
@@ -130,6 +163,89 @@ function App() {
               </div>
             </div>
           </section>
+
+          {/* OUR FOCUS SECTION */}
+          <section id="our-focus" className="mt-40 mb-60 h-70 flex">
+            {/* LEFT CONTENT */}
+            <div className="h-full w-[45%]">
+              <h3 className="text-7xl font-bold uppercase">Our Core Focus</h3>
+
+              <p className="mt-3 max-w-140">
+                We are focused on building the local gaming and eSports
+                community through organizing competitive gaming tournaments,
+                hosting weekly gaming events, like "No More Boring Sundays" and
+                providing gaming setups for events like AnimeKon.
+              </p>
+
+              <MainButton text="About Us" onClick={() => {}} />
+            </div>
+
+            {/* RIGHT CONTENT */}
+            <div className="h-full w-[55%] grid grid-cols-2 grid-rows-2 gap-4">
+              {ourFocusData.map((focus, index) => (
+                <div key={index} className="flex flex-col">
+                  <h3 className="text-4xl uppercase font-extrabold">
+                    {focus.title}
+                  </h3>
+
+                  <p className="text-sm mt-2">{focus.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* OUR TEAMS SECTION */}
+          <section
+            ref={sectionRef}
+            id="our-teams"
+            className="my-40 h-auto flex flex-col"
+          >
+            {/* HEADER */}
+            <div className="flex flex-col gap-5">
+              <h3 className="text-7xl font-bold uppercase">Our Team</h3>
+
+              <p className="max-w-180">
+                We are a local organization dedicated to fostering the growth of
+                the gaming community in Barbados. Our team is passionate about
+                esports and gaming, and we work tirelessly to create engaging
+                events and opportunities for gamers of all levels.
+              </p>
+            </div>
+
+            {/* PARALLAX SECTION */}
+            <div className="relative min-h-[300vh] flex">
+              {/* IMAGE */}
+              <div className="sticky top-0 w-1/2 h-screen flex items-center ">
+                <div ref={imageRef} className="h-[85%] w-[95%] "></div>
+              </div>
+
+              <div className="w-1/2 flex flex-col justify-start">
+                {ourTeamData.map((member, index) => (
+                  <div
+                    key={index}
+                    id={`member-${index}`}
+                    className="h-screen flex flex-col justify-center pl-10"
+                  >
+                    {/* <div className="flex flex-col gap-2 pl-10"> */}
+                    <p className="text-sm font-semibold uppercase">
+                      {member.role}
+                    </p>
+
+                    <h4 className="text-7xl font-bold uppercase">
+                      {member.name}
+                    </h4>
+
+                    <div className="mt-5">
+                      <MainButton text="Learn More" onClick={() => {}} />
+                    </div>
+                  </div>
+                  // </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SPONSORS */}
         </div>
       </div>
 

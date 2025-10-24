@@ -1,29 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
 @theme {
   /* COLORS */
-  --color-OxfordBlue: #0e1428;
+  --color-oxfordBlue: #0e1428;
   --color-cinnabar: #d95d39;
-  --color-cinnabar-opacity-60: rgba(217, 93, 57, 0.6);
+  --color-cinnabar-opacity-30: rgba(217, 93, 57, 0.3);
+  --color-gamboge: #f0a202;
 }
 
 :root {
   --bg-color: #ffffff;
   --text-color: #0e1428;
-  --accent-color: var(--color-cinnabar);
+  --accent-color: var(--color-cinnabar-opacity-30);
 }
 
 /* Dark theme */
 [data-theme='dark'] {
-  --bg-color: var(--color-OxfordBlue);
+  --bg-color: var(--color-oxfordBlue);
   --text-color: #ffffff;
-  --accent-color: var(--color-cinnabar-opacity-60);
+  --accent-color: var(--color-cinnabar);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Oswald', sans-serif;
+  margin: 0;
 }
 
 body {
   @apply m-0;
-  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);

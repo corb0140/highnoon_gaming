@@ -1,3 +1,4 @@
+import { Moon, Sun } from 'lucide-react'
 import { useAppStore } from '@/store/store'
 
 const ThemeToggle = () => {
@@ -7,9 +8,9 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="px-3 py-2 border rounded-lg text-sm absolute bottom-10 right-10"
+      className={`px-2 py-2 ${theme === 'light' ? 'bg-oxfordBlue text-white' : 'bg-white text-oxfordBlue'} rounded-full text-sm fixed bottom-5 right-2 z-30`}
     >
-      {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+      {theme === 'light' ? <Moon /> : <Sun />}
     </button>
   )
 }
